@@ -22,7 +22,7 @@ filetype plugin indent on
 " Basic vim settings
 " --------------------------------------------
 
-let mapleader="," " Set leader to ',' instead of '\'
+let mapleader="\<Space>" " Set leader to space
 "To open a new empty buffer
 nmap <leader>t :enew<CR>
 " Move to the next buffer
@@ -38,6 +38,8 @@ set hlsearch               " Highlight search matches
 set ignorecase             " Ignore case when searching...
 set smartcase              " ...except when we don't want it
 set infercase              " Attempt to figure out the correct case<F37>
+
+set history=700            " bump up the history
 
 set lazyredraw             " Lazy Redraw (faster macro execution)
 set wildmenu               " Menu on completion please
@@ -87,7 +89,7 @@ if &t_Co == 256
     " And some of them require this variable to be set:
     "let base16colorspace=256  " Access colors present in 256 colorspace
     set background=dark
-    colorscheme PaperColor
+    colorscheme Tomorrow-Night
 else
     colorscheme default
 endif
@@ -183,7 +185,7 @@ endfunction
 " --------------------------------------------
 
 " airline settings
-let g:airline_theme = 'PaperColor'
+let g:airline_theme = 'tomorrow'
 let g:airline_powerline_fonts = 1
 " Enable the list of buffers
 let g:airline#extensions#tabline#enabled = 1
@@ -260,10 +262,10 @@ set foldlevelstart=1
 set foldnestmax=2
 highlight Folded ctermbg=darkblue ctermfg=yellow
 
-" In normal mode, press Space to toggle the current fold open/closed.
+" In normal mode, press , to toggle the current fold open/closed.
 " However, if the cursor is not in a fold, move to the right (the default
 " behavior)
-nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+nnoremap <silent> , @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <Space> zf
 
 " UltiSnips

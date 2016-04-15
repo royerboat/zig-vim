@@ -69,9 +69,6 @@
 [submodule "bundle/papercolor-theme"]
 	path = bundle/papercolor-theme
 	url = https://github.com/NLKNguyen/papercolor-theme
-[submodule "bundle/vim-devicons"]
-	path = bundle/vim-devicons
-	url = https://github.com/ryanoasis/vim-devicons
 [submodule "bundle/vim-quick-scope"]
 	path = bundle/vim-quick-scope
 	url = https://github.com/unblevable/quick-scope.git

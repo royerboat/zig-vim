@@ -26,9 +26,9 @@ let mapleader="\<Space>" " Set leader to space
 "To open a new empty buffer
 nmap <leader>t :enew<CR>
 " Move to the next buffer
-nmap <leader>l :bnext<CR>
+nmap <leader><tab> :bnext<CR>
 " Move to the previous buffer
-nmap <leader>k :bprevious<CR>
+nmap <leader><s-tab> :bprevious<CR>
 " Close the current buffer and move to the previous one. This replicates the idea of closing a tab
 nmap <leader>bq :bp <BAR> bd #<CR>
 

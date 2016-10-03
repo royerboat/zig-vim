@@ -265,7 +265,7 @@ highlight Folded ctermbg=darkblue ctermfg=yellow
 " In normal mode, press , to toggle the current fold open/closed.
 " However, if the cursor is not in a fold, move to the right (the default
 " behavior)
-nnoremap <silent> , @=(foldlevel('.')?'za':"\<Space>")<CR>
+nnoremap <silent> <leader>g @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <Space> zf
 
 " UltiSnips

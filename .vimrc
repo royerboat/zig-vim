@@ -5,8 +5,8 @@ else
     let g:tagbar_ctags_bin = "/usr/bin/ctags"
 endif
 
-if executable('/opt/rh/python33/root/bin/python3.3')
-    let g:python3_host_prog = '/opt/rh/python33/root/bin/python3.3'
+if executable('/opt/rh/rh-python34/root/bin/python')
+    let g:python3_host_prog = '/opt/rh/rh-python34/root/bin/python'
 endif
 
 if has('multi_byte')      " Make sure we have unicode support

@@ -1,7 +1,3 @@
-[submodule "syntastic"]
-  path = bundle/syntastic
-  url  = https://github.com/scrooloose/syntastic.git
-
 [submodule "vim-airline"]
   path = bundle/vim-airline
   url  = https://github.com/bling/vim-airline.git
@@ -45,9 +41,6 @@
 [submodule "bundle/vim-tomorrow-theme"]
 	path = bundle/vim-tomorrow-theme
 	url = https://github.com/chriskempson/vim-tomorrow-theme.git
-[submodule "bundle/vim-ultisnips"]
-	path = bundle/vim-ultisnips
-	url = https://github.com/SirVer/ultisnips.git
 [submodule "bundle/vim-snippets"]
 	path = bundle/vim-snippets
 	url = https://github.com/honza/vim-snippets
@@ -63,18 +56,27 @@
 [submodule "bundle/vim-colors-atelier-schemes"]
 	path = bundle/vim-colors-atelier-schemes
 	url = https://github.com/atelierbram/vim-colors_atelier-schemes.git
-[submodule "bundle/vim-changesPlugin"]
-	path = bundle/vim-changesPlugin
-	url = https://github.com/chrisbra/changesPlugin.git
 [submodule "bundle/papercolor-theme"]
 	path = bundle/papercolor-theme
 	url = https://github.com/NLKNguyen/papercolor-theme
 [submodule "bundle/vim-quick-scope"]
 	path = bundle/vim-quick-scope
-	url = https://github.com/unblevable/quick-scope.git
+	url = https://github.com/ryeddula/quick-scope.git
 [submodule "bundle/vim-deoplete"]
 	path = bundle/vim-deoplete
 	url = https://github.com/Shougo/deoplete.nvim.git
+[submodule "bundle/vim-tender"]
+	path = bundle/vim-tender
+	url = https://github.com/jacoborus/tender.vim.git
+[submodule "bundle/vim-ultisnips"]
+	path = bundle/vim-ultisnips
+	url = https://github.com/SirVer/ultisnips.git
+[submodule "bundle/ale"]
+	path = bundle/ale
+	url = https://github.com/w0rp/ale.git
 [submodule "bundle/vim-airline-themes"]
 	path = bundle/vim-airline-themes
 	url = https://github.com/vim-airline/vim-airline-themes.git
+[submodule "bundle/vim-signify"]
+	path = bundle/vim-signify
+	url = https://github.com/mhinz/vim-signify.git

@@ -223,34 +223,14 @@ autocmd FileType c,cpp,java,python,perl nested :TagbarOpen
 let g:signify_vcs_list = [ 'git' ]
 let g:signify_realtime = 1
 
-
-" Syntastic settings
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_enable_perl_checker = 1 " enable perl checks
-let g:syntastic_auto_loc_list = 1  " autoopen the errors window when the buffer has errors.
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
-" TODO: it appears that jshint shows stuff as warnings... so need to
-" conditionally suppress warnings only perl files for now.
-autocmd FileType perl let g:syntastic_quiet_messages = {'level': 'warnings'}
-autocmd FileType html let g:syntastic_html_tidy_ignore_errors = [ "<cptext> unexpected or duplicate quote mark", "discarding unexpected <cpanel>", "discarding unexpected <cptext>", "<cptext> is not recognized!",  "<cpanel> is not recognized!", "<cptext> attribute with missing trailing quote mark" ]
-let g:syntastic_enable_highlighting = 1
-let g:syntastic_auto_jump = 0 " dont automatically jump to the first error
-let g:syntastic_loc_list_height = 5
-let g:syntastic_perl_checkers = ['perl', 'perlcritic']
-let g:syntastic_perl_lib_path = ['./lib']
-let g:syntastic_perl_perlcritic_args = '--profile ~/.perlcriticrc --stern --theme legacy'
-let g:syntastic_perl_perl_args = '-Mstrict'
+" Ale settings
+let g:ale_perl_perl_options = '-X -c -Mwarnings -Ilib -I/usr/local/cpanel -I/usr/local/cpanel/t/lib'
 
 " TODO: Should probably just add this to my path instead...
-if executable('/usr/local/cpanel/3rdparty/node/bin/jshint')
-    let g:syntastic_javascript_checkers = ['jshint']
-    let g:syntastic_javascript_jshint_exec = '/usr/local/cpanel/3rdparty/node/bin/jshint'
-    let g:syntastic_javascript_jshint_args = "--verbose --config ~/.jshintrc"
-    let g:ale_javascript_jshint_executable = '/usr/local/cpanel/3rdparty/node/bin/jshint'
+if executable('/usr/local/cpanel/3rdparty/node/bin/eslint')
+    let g:ale_javascript_jshint_executable = '/usr/local/cpanel/3rdparty/node/bin/eslint'
     let g:ale_javascript_jshint_use_global = 1
-    let g:ale_jshint_config_loc = "~/.jshintrc"
+    let g:ale_jshint_config_loc = "/root/.eslintrc.json"
 endif
 
 if has("unix")

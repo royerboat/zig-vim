@@ -80,3 +80,9 @@
 [submodule "bundle/vim-signify"]
 	path = bundle/vim-signify
 	url = https://github.com/mhinz/vim-signify.git
+[submodule "bundle/yats.vim"]
+	path = bundle/yats.vim
+	url = https://github.com/HerringtonDarkholme/yats.vim.git
+[submodule "bundle/nvim-typescript"]
+	path = bundle/nvim-typescript
+	url = https://github.com/mhartington/nvim-typescript.git

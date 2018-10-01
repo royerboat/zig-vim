@@ -5,7 +5,9 @@ else
     let g:tagbar_ctags_bin = "/usr/bin/ctags"
 endif
 
-if executable('/opt/rh/python33/root/bin/python3.3')
+if executable('/opt/rh/rh-python36/root/usr/bin/python')
+    let g:python3_host_prog = '/opt/rh/rh-python36/root/usr/bin/python'
+elseif executable('/opt/rh/python33/root/bin/python3.3')
     let g:python3_host_prog = '/opt/rh/python33/root/bin/python3.3'
 elseif executable('/opt/rh/python33/root/usr/bin/python')
     let g:python3_host_prog = '/opt/rh/python33/root/usr/bin/python'
@@ -27,13 +29,17 @@ filetype plugin indent on
 
 let mapleader="\<Space>" " Set leader to space
 "To open a new empty buffer
-nmap <leader>t :enew<CR>
+nmap <leader>t :lcl<BAR> :enew<CR>
 " Move to the next buffer
 nmap <leader><tab> :bnext<CR>
 " Move to the previous buffer
 nmap <leader><s-tab> :bprevious<CR>
 " Close the current buffer and move to the previous one. This replicates the idea of closing a tab
-nmap <leader>bq :bp <BAR> bd #<CR>
+nmap <leader>bq :lcl<BAR> :bp <BAR> bd #<CR>
+
+" map the quit calls to also close the syntastic error windows, so it doesn't
+" hold us up unnecessarily
+cabbrev q lcl\|q
 
 set mouse=
 set incsearch              " Enable incremental searching
@@ -157,28 +163,65 @@ nnoremap <silent> _T :call <SID>NonPrintable()<CR>
 function! s:DoTidy(visual) range
     let cmd = "cat"
     let winview = winsaveview()
+    let ran_eslint = 0
+
     if &ft == "perl"
         let cmd = "perltidy -q"
     elseif &ft == "python"
-        let cmd = "pythontidy"
-    elseif &ft == "javascript"
-        if executable('/usr/local/cpanel/3rdparty/node/bin/jsfmt')
-            let cmd = "/usr/local/cpanel/3rdparty/node/bin/jsfmt"
+        if executable('/usr/local/cpanel/3rdparty/bin/pythontidy')
+            let cmd = "/usr/local/cpanel/3rdparty/bin/pythontidy"
         else
-            let cmd = "/usr/local/cpanel/3rdparty/node/bin/js-beautify --config=~/.jsbeautifyrc --file -"
+            let cmd = "pythontidy"
+        endif
+    elseif &ft == "javascript"
+        if executable('/usr/local/cpanel/3rdparty/node/bin/eslint') && filereadable('/usr/local/cpanel/build-tools/eslint/eslint_style_rules.json')
+            let ran_eslint = 1
+            let eslint_binary = '/usr/local/cpanel/3rdparty/node/bin/eslint'
+            let eslint_config = '/usr/local/cpanel/build-tools/eslint/eslint_style_rules.json'
+
+            " Temp file idea lifted from:
+            " https://github.com/Chiel92/vim-autoformat/blob/master/plugin/defaults.vim
+            "
+            " We have to use a temporary file atm, as ESLint does not
+            " allow PIPEs with the --fix option
+            let eslint_js_tmp_file = fnameescape(tempname().".js")
+            let content = getline('1', '$')
+            call writefile(content, l:eslint_js_tmp_file)
+
+            call system(eslint_binary." --config ".eslint_config." --fix ".eslint_js_tmp_file." 1> /dev/null;")
+
+            let tidy = readfile(eslint_js_tmp_file)
+            let start = 1
+            let end = line("$") > len(tidy) ? line("$") : len(tidy)
+            " NOTE: visual mode does not handle cases where new lines are added fully!
+            " You should review the tidied variant fully to make sure
+            " lines no removed
+            if a:visual == 1
+                let start = line("'<")
+                let end = line("'>")
+            endif
+
+            for lin_num in range(start, end)
+                call setline(lin_num, tidy[lin_num - 1])
+            endfor
+
+            call system("rm -f ".eslint_js_tmp_file)
         endif
     endif
-    if a:visual == 0
-        let text = ":%!" . cmd
-        execute text
-    elseif a:visual == 1
-        let text = ":'<,'>!" . cmd
-        execute text
+
+    if ran_eslint == 0
+        if a:visual == 0
+            let text = ":%!" . cmd
+            execute text
+        elseif a:visual == 1
+            let text = ":'<,'>!" . cmd
+            execute text
+        end
     end
     call winrestview(winview)
 endfunction
 
-function! NonPrintable()
+function! s:NonPrintable()
    setlocal enc=utf8
    if search('[^\x00-\xff]') != 0
      call matchadd('Error', '[^\x00-\xff]')
@@ -233,20 +276,19 @@ if executable('/usr/local/cpanel/3rdparty/node/bin/eslint')
     let g:ale_jshint_config_loc = "/root/.eslintrc.json"
 endif
 
-if has("unix")
-    let g:syntastic_error_symbol = '✗✗'
-    let g:syntastic_style_error_symbol = '✠✠'
-    let g:syntastic_warning_symbol = '∆∆'
-    let g:syntastic_style_warning_symbol = '≈≈'
-else
-    let g:syntastic_error_symbol = 'X'
-    let g:syntastic_style_error_symbol = '>'
-    let g:syntastic_warning_symbol = '!'
-    let g:syntastic_style_warning_symbol = '>'
-endif
-" map the quit calls to also close the syntastic error windows, so it doesn't
-" hold us up unnecessarily
-cabbrev q lcl\|q
+" Enable some linter that are disabled by default:
+" rpmlint for rpm specfiles
+" perl -c for perl
+let g:ale_linters = {
+\    'spec': ['rpmlint'],
+\    'perl': ['perl', 'perlcritic'],
+\}
+
+" Do not lint or fix minified files.
+let g:ale_pattern_options = {
+\ '\.min\.js$': {'ale_linters': [], 'ale_fixers': []},
+\ '\.min\.css$': {'ale_linters': [], 'ale_fixers': []},
+\}
 
 " Associate *.tt files with template toolkit
 " TODO: figure why this doesn't get auto detected...

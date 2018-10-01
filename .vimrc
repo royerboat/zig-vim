@@ -267,6 +267,8 @@ let g:signify_vcs_list = [ 'git' ]
 let g:signify_realtime = 1
 
 " Ale settings
+let g:set_loclist = 1
+let g:set_quickfix = 0
 let g:ale_perl_perl_options = '-X -c -Mwarnings -Ilib -I/usr/local/cpanel -I/usr/local/cpanel/t/lib'
 
 " TODO: Should probably just add this to my path instead...

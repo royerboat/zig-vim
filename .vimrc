@@ -168,16 +168,12 @@ function! s:DoTidy(visual) range
     if &ft == "perl"
         let cmd = "perltidy -q"
     elseif &ft == "python"
-        if executable('/usr/local/cpanel/3rdparty/bin/pythontidy')
-            let cmd = "/usr/local/cpanel/3rdparty/bin/pythontidy"
-        else
-            let cmd = "pythontidy"
-        endif
+        let cmd = "pythontidy"
     elseif &ft == "javascript"
-        if executable('/usr/local/cpanel/3rdparty/node/bin/eslint') && filereadable('/usr/local/cpanel/build-tools/eslint/eslint_style_rules.json')
+        if executable('eslint') && filereadable('~/.eslintrc')
             let ran_eslint = 1
-            let eslint_binary = '/usr/local/cpanel/3rdparty/node/bin/eslint'
-            let eslint_config = '/usr/local/cpanel/build-tools/eslint/eslint_style_rules.json'
+            let eslint_binary = 'eslint'
+            let eslint_config = '~/.eslintrc'
 
             " Temp file idea lifted from:
             " https://github.com/Chiel92/vim-autoformat/blob/master/plugin/defaults.vim
@@ -269,13 +265,13 @@ let g:signify_realtime = 1
 " Ale settings
 let g:set_loclist = 1
 let g:set_quickfix = 0
-let g:ale_perl_perl_options = '-X -c -Mwarnings -Ilib -I/usr/local/cpanel -I/usr/local/cpanel/t/lib'
+let g:ale_perl_perl_options = '-X -c -Mwarnings -Ilib'
 
 " TODO: Should probably just add this to my path instead...
-if executable('/usr/local/cpanel/3rdparty/node/bin/eslint')
-    let g:ale_javascript_jshint_executable = '/usr/local/cpanel/3rdparty/node/bin/eslint'
+if executable('eslint')
+    let g:ale_javascript_jshint_executable = 'eslint'
     let g:ale_javascript_jshint_use_global = 1
-    let g:ale_jshint_config_loc = "/root/.eslintrc.json"
+    let g:ale_jshint_config_loc = "~/.eslintrc.json"
 endif
 
 " Enable some linter that are disabled by default:
@@ -322,7 +318,7 @@ nnoremap <silent> <leader>g @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <Space> zf
 
 " UltiSnips
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "bundle/cpanel-snippets"]
+let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 
 let g:ctrlp_cmd = 'CtrlP'
 nmap <leader>p :CtrlP<CR>

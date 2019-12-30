@@ -266,6 +266,9 @@ let g:signify_realtime = 1
 let g:set_loclist = 1
 let g:set_quickfix = 0
 let g:ale_perl_perl_options = '-X -c -Mwarnings -Ilib'
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 
 " TODO: Should probably just add this to my path instead...
 if executable('eslint')
@@ -328,3 +331,7 @@ let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
   \ 'file': '\v\.(exe|so|dll)$|(min|cmb|-.+).js$',
   \ }
+
+" C plugin mods
+let c_no_curly_error=1
+

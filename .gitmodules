@@ -86,3 +86,6 @@
 [submodule "bundle/nvim-typescript"]
 	path = bundle/nvim-typescript
 	url = https://github.com/mhartington/nvim-typescript.git
+[submodule "bundle/vim-cpp-enhanced-highlight"]
+	path = bundle/vim-cpp-enhanced-highlight
+	url = https://github.com/octol/vim-cpp-enhanced-highlight.git
